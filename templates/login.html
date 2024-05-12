@@ -2,10 +2,10 @@
 <html>
     <head>
         <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="/static/bootstrap-4.5.3/css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="/static/fontawesome-free-6.2.1/css/all.min.css">
-        <link rel="stylesheet" type="text/css" href="/static/css/style.css">
-        <title>Kviz</title>
+        <link rel="stylesheet" type="text/css" href="/static/bootstrap-5.3.3/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+        <link rel="stylesheet" type="text/css" href="/static/login.css">
+        <title>Primavera</title>
     </head>
     <body>
 
@@ -26,7 +26,7 @@
                       <div class="slider-tab"></div>
                    </div>
                    <div class="form-inner">
-            <form action={{url_for('login')}}  method="POST" class="login" >
+            <form   method="POST" class="login" >
                 <div class="field">
                    <input type="text" name="ime" placeholder="Ime" required>
                 </div>
@@ -44,7 +44,7 @@
              </form>
 
 
-             <form action={{url_for('user_novi')}} method="POST" class="signup">
+             <form  method="POST" class="signup">
                 <div class="field">
                    <input type="text" name="ime" placeholder="Ime" required>
                 </div>
@@ -68,7 +68,7 @@
 </div>
 <script src="/static/login.js"></script>
 
-<script src="/static/bootstrap-4.5.3/js/bootstrap.js"></script>
+<script src="/static/bootstrap-5.3.3/js/bootstrap.js"></script>
         <script src="/static/fontawesome-free-6.2.1/js/all.js"></script>
         <script src=""></script>
     </body>

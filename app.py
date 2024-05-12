@@ -36,5 +36,39 @@ def render_index():
 def render_contact():
      return render_template("contact.html")
 
+@app.route("/logout")
+def logout():
+       session["ulogovani_user"]=None
+       return redirect(url_for("login"))
+
+@app.route('/login',methods=["GET","POST"])
+
+def login():
+        
+        if request.method=="GET":
+                
+                return render_template("login.html")
+
+        elif request.method=="POST":
+                
+                forma = request.form
+                upit="SELECT * FROM user WHERE ime=%s"
+                vrednost = (forma["ime"],)
+                kursor.execute(upit, vrednost)
+                user=kursor.fetchone()
+                
+                if user !=None:
+                        #if user["lozinka"]==forma["lozinka"]:#za ne hash lozinke
+                        if check_password_hash(user["lozinka"], forma["lozinka"]):#za hash lozinke
+                        
+                                session["ulogovani_user"]=user["id"]
+                                session["rola_user"]=str(user)                                     
+                                return redirect(url_for("render_index",id=1,idp=1))
+                        else:
+                                        
+                                        return render_template("login.html")
+                else:
+                        return render_template("login.html")    
+
 
 app.run(debug=True)
