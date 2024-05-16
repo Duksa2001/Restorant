@@ -27,7 +27,7 @@ def rola():
         if ulogovan():
                 return ast.literal_eval(session["rola_user"]).pop("rola")
    
-@app.route('/',methods=["GET","POST"])
+@app.route('/',methods=['GET','POST'])
 
 def render_index():
     return render_template("idex.html")
@@ -52,18 +52,20 @@ def login():
         elif request.method=="POST":
                 
                 forma = request.form
-                upit="SELECT * FROM user WHERE ime=%s"
-                vrednost = (forma["ime"],)
+                upit="SELECT * FROM customer WHERE Name=%s"
+                vrednost = (forma["Name"],)
                 kursor.execute(upit, vrednost)
                 user=kursor.fetchone()
                 
                 if user !=None:
-                        #if user["lozinka"]==forma["lozinka"]:#za ne hash lozinke
-                        if check_password_hash(user["lozinka"], forma["lozinka"]):#za hash lozinke
+                        if user["Password"]==forma["Password"]:#za ne hash lozinke
+                        #if check_password_hash(user["Password"], forma["Password"]):#za hash lozinke
                         
-                                session["ulogovani_user"]=user["id"]
-                                session["rola_user"]=str(user)                                     
-                                return redirect(url_for("render_index",id=1,idp=1))
+                                session["ulogovani_user"]=user["ID"]
+                                #session["rola_user"]=str(user)  
+
+                                #render_template("contact.html")                                      
+                                return redirect(url_for("render_index"))
                         else:
                                         
                                         return render_template("login.html")
