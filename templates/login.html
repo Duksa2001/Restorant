@@ -26,7 +26,7 @@
                       <div class="slider-tab"></div>
                    </div>
                    <div class="form-inner">
-            <form   method="POST" class="login" >
+            <form action={{url_for('login')}}  method="POST" class="login" >
                 <div class="field">
                    <input type="text" name="Name" placeholder="Name" required>
                 </div>
@@ -44,15 +44,15 @@
              </form>
 
 
-             <form  method="POST" class="signup">
+             <form action={{url_for('new_user')}}  method="POST" class="signup">
                 <div class="field">
-                   <input type="text" name="ime" placeholder="Ime" required>
+                   <input type="text" name="Name" placeholder="Ime" required>
                 </div>
                 <div class="field">
-                   <input type="text" name="prezime"  placeholder="Prezime" required>
+                   <input type="email" name="Email"  placeholder="Prezime" required>
                 </div>
                 <div class="field">
-                   <input type="password" name="lozinka" placeholder="Potvrdi sifru" required>
+                   <input type="password" name="Password" placeholder="Potvrdi sifru" required>
                 </div>
                 <div class="field btn">
                    <div class="btn-layer"></div>

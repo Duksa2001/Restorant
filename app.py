@@ -27,7 +27,7 @@ def rola():
         if ulogovan():
                 return ast.literal_eval(session["rola_user"]).pop("rola")
    
-@app.route('/',methods=['GET','POST'])
+@app.route('/',methods=["GET","POST"])
 
 def render_index():
     return render_template("idex.html")
@@ -58,11 +58,11 @@ def login():
                 user=kursor.fetchone()
                 
                 if user !=None:
-                        if user["Password"]==forma["Password"]:#za ne hash lozinke
-                        #if check_password_hash(user["Password"], forma["Password"]):#za hash lozinke
+                        #if user["Password"]==forma["Password"]:#za ne hash lozinke
+                        if check_password_hash(user["Password"], forma["Password"]):#za hash lozinke
                         
                                 session["ulogovani_user"]=user["ID"]
-                                #session["rola_user"]=str(user)  
+                                session["rola_user"]=str(user)  
 
                                 #render_template("contact.html")                                      
                                 return redirect(url_for("render_index"))
@@ -72,5 +72,43 @@ def login():
                 else:
                         return render_template("login.html")    
 
+@app.route("/new_user",methods=["GET","POST"])#za registraciju novih korisnika
+def new_user():
+        if ulogovan():
+                if request.method=="GET":
+                        return render_template("idex.html")
+
+                elif request.method=="POST":
+                        forma=request.form
+                        hesovana_lozinka=generate_password_hash(forma["Password"])#generise hash lozinku
+                        vrednosti=(
+                                forma["Name"],
+                                forma["Email"],
+                                hesovana_lozinka,
+                                #forma["Password"],
+                        )
+                        upit=""" INSERT INTO
+                                customer(Name,Email,Password)
+                                VALUES(%s,%s,%s)        
+                        """
+                
+                        #unosi vrednosti u bazu
+                        kursor.execute(upit, vrednosti)
+                        
+                       ## upitUserID="select ID from customer where Name=%s and Surname=%s and Password=%s"
+                       # kursor.execute(upitUserID,vrednosti)
+                        
+                        
+
+                        konekcija.commit()
+
+
+
+                        
+                        return redirect(url_for("login"))
+                else:
+                        return redirect(url_for("login"))
+        
+        
 
 app.run(debug=True)
