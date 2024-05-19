@@ -118,10 +118,7 @@ def meni():
               konekcija.commit()
               
               return render_template("meni.html",meni=meni)
-@app.route('/menu',methods=["GET","POST"])
-def menu():
-     
-       return render_template("menu.html")
+
         
 @app.route('/menu',methods=["GET","POST"])
 def menu():
