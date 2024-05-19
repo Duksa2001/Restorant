@@ -109,6 +109,15 @@ def new_user():
                 else:
                         return redirect(url_for("login"))
         
+@app.route('/meni',methods=["GET","POST"])
+def meni():
+     #  if request.method=="GET":
+              upit= "select * from meni where ID=1"
+              kursor.execute(upit)
+              meni=kursor.fetchall()
+              konekcija.commit()
+              
+              return render_template("meni.html",meni=meni)
         
 
 app.run(debug=True)
