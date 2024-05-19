@@ -30,7 +30,7 @@ def rola():
 @app.route('/',methods=["GET","POST"])
 
 def render_index():
-    return render_template("idex.html")
+    return render_template("index.html")
 
 @app.route('/contact',methods=["GET","POST"])
 def render_contact():
