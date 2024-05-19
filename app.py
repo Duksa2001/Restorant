@@ -122,9 +122,14 @@ def meni():
         
 @app.route('/menu',methods=["GET","POST"])
 def menu():
+              upit= "select * from meni"
+              kursor.execute(upit)
+              menu=kursor.fetchall()
+              konekcija.commit()
+              print(menu)
     
               
-              return render_template("menu.html")
+              return render_template("menu.html",menu=menu)
         
 
 app.run(debug=True)
