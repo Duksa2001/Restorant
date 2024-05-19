@@ -119,7 +119,7 @@ def meni():
               
               return render_template("meni.html",meni=meni)
 @app.route('/menu',methods=["GET","POST"])
-def meni():
+def menu():
      
        return render_template("menu.html")
         

@@ -1,20 +1,43 @@
-<!DOCTYPE html>
+{%extends 'base.html' %}
 
-<html>
+{% block content %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu</title>
 
-</head>
+    <style>
+        body{
+          background-color: #221d24;
+        }
+        .col-md-4{
+          height: 250px;
+          margin-bottom: 20px;
+          
+        }
 
-<body>
-    <div class="row">
+        .card
+        {
+            height: 250px;
+        }
+  
+        #galery1,#galery2,#galery3,#galery4,#galery5,#galery6{
+          max-width: 100%;
+          max-height: 100%;
+          width: 100%;
+          object-fit: cover; 
+          border-radius: 10px;
+          
+        }
+  
+      </style>
+
+
+
+
+    <section>
+    <div class="container row" style="margin: auto;">
     <div class="col-md-4">
         <form method="post">
             <div class="card" style="width: 18rem;">
-                <img src="/static/image/galery1.webp" class="card-img-top" alt="...">
+                <img id="galery1" src="/static/image/galery1.webp" class="img-thumbnail" alt="...">
 
                 <div class="card-body">
                     <h5 class="card-title">Naslov</h5>
@@ -30,7 +53,48 @@
             </div>
         </form>
     </div>
-</div>
-</body>
+    <div class="col-md-4">
+        <form method="post">
+            <div class="card" style="width: 18rem;">
+                <img id="galery1" src="/static/image/galery1.webp" class="img-thumbnail" alt="...">
 
-</html>
+                <div class="card-body">
+                    <h5 class="card-title">Naslov</h5>
+                    <p class="card-text">Opis</p>
+                    <p class="card-text">Cena</p>
+                  
+                    <input type="hidden" name="product_id" value="">
+                    <input type="submit" class="btn btn-primary"  name="add" value="Add to cart">
+
+
+                </div>
+
+            </div>
+        </form>
+    </div>
+    <div class="col-md-4">
+        <form method="post">
+            <div class="card" style="width: 18rem;">
+                <img id="galery1" src="/static/image/galery1.webp" class="img-thumbnail" alt="...">
+
+                <div class="card-body">
+                    <h5 class="card-title">Naslov</h5>
+                    <p class="card-text">Opis</p>
+                    <p class="card-text">Cena</p>
+                  
+                    <input type="hidden" name="product_id" value="">
+                    <input type="submit" class="btn btn-primary"  name="add" value="Add to cart">
+
+
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+
+   
+</div>
+</section>
+
+{% endblock %}
