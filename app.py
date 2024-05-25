@@ -3,9 +3,18 @@ import mariadb
 import mysql.connector
 from werkzeug.security import generate_password_hash,check_password_hash
 import ast
-
+from flask_mail import Mail, Message
 app=Flask(__name__)
 app.secret_key="tajni_kljuc_aplikacije"
+
+def mail():
+        app.config["MAIL_SERVER"]="sntp.gmail.com"
+        app.config["MAIL_PORT"]=465
+        app.config["MAIL_USERNAME"]="pythonprimavera@gmail.com"
+        app.config["MAIL_PASSWORD"]="Primavera2024"
+        app.config["MAIL_USE_TLS"]=False
+        app.config["MAIL_USE_SSL"]=True
+
 
 konekcija=mysql.connector.connect(
     passwd="",
@@ -30,7 +39,12 @@ def rola():
 @app.route('/',methods=["GET","POST"])
 
 def render_index():
-    return render_template("index.html")
+        upit="select Name from customer where id=%s"
+        vrednostUlogovanog=(session.get("ulogovani_user"),)
+        kursor.execute(upit,vrednostUlogovanog)
+        ime=kursor.fetchall()
+        konekcija.commit()
+        return render_template("index.html",ime=ime)
 
 @app.route('/contact',methods=["GET","POST"])
 def render_contact():
@@ -39,7 +53,7 @@ def render_contact():
 @app.route("/logout")
 def logout():
        session["ulogovani_user"]=None
-       return redirect(url_for("login"))
+       return redirect(url_for("render_index"))
 
 @app.route('/login',methods=["GET","POST"])
 
@@ -74,7 +88,7 @@ def login():
 
 @app.route("/new_user",methods=["GET","POST"])#za registraciju novih korisnika
 def new_user():
-        if ulogovan():
+        #if ulogovan():
                 if request.method=="GET":
                         return render_template("idex.html")
 
@@ -83,13 +97,16 @@ def new_user():
                         hesovana_lozinka=generate_password_hash(forma["Password"])#generise hash lozinku
                         vrednosti=(
                                 forma["Name"],
+                                forma["Surname"],
                                 forma["Email"],
                                 hesovana_lozinka,
                                 #forma["Password"],
+                                forma["Address"]
+                               # forma["Number"],
                         )
                         upit=""" INSERT INTO
-                                customer(Name,Email,Password)
-                                VALUES(%s,%s,%s)        
+                                customer(Name,Surname,Email,Password,Address)
+                                VALUES(%s,%s,%s,%s,%s)        
                         """
                 
                         #unosi vrednosti u bazu
@@ -103,19 +120,18 @@ def new_user():
                         konekcija.commit()
 
 
-
-                        
                         return redirect(url_for("login"))
+                        
+                
                 else:
                         return redirect(url_for("login"))
+                        
+        
         
 @app.route('/meni',methods=["GET","POST"])
 def meni():
-     #  if request.method=="GET":
-              upit= "select * from meni where ID=1"
-              kursor.execute(upit)
-              meni=kursor.fetchall()
-              konekcija.commit()
+     
+              
               
               return render_template("meni.html",meni=meni)
 
@@ -127,6 +143,9 @@ def menu():
               menu=kursor.fetchall()
               konekcija.commit()
               print(menu)
+
+              upit2="select * from meni where Kategorija=%s"\
+              #kategorija=forma()
     
               
               return render_template("menu.html",menu=menu)
