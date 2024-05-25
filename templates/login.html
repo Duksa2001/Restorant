@@ -46,14 +46,22 @@
 
              <form action={{url_for('new_user')}}  method="POST" class="signup">
                 <div class="field">
-                   <input type="text" name="Name" placeholder="Ime" required>
+                   <input type="text" name="Name" placeholder="Name" required>
+                </div>
+                  <div class="field">
+                     <input type="text" name="Surname" placeholder="Surname" required>
+                  </div>
+                  <div class="field">
+                     <input type="email" name="Email" placeholder="Email" required>
+                  </div>
+                <div class="field">
+                   <input type="password" name="Password" placeholder="Password" required>
                 </div>
                 <div class="field">
-                   <input type="email" name="Email"  placeholder="Prezime" required>
-                </div>
-                <div class="field">
-                   <input type="password" name="Password" placeholder="Potvrdi sifru" required>
-                </div>
+                  <input type="text" name="Address" placeholder="Address" required>
+               </div>
+               
+               
                 <div class="field btn">
                    <div class="btn-layer"></div>
                    <input type="submit" value="Registruj se">
