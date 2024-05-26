@@ -138,17 +138,42 @@ def meni():
         
 @app.route('/menu',methods=["GET","POST"])
 def menu():
-              upit= "select * from meni"
-              kursor.execute(upit)
-              menu=kursor.fetchall()
-              konekcija.commit()
-              print(menu)
+              if request.method=="GET":
+                forma=request.form
+                upit= "select * from meni"
+                
+                kursor.execute(upit)
+                menu=kursor.fetchall()
+                konekcija.commit()
+                #print(menu)
 
-              upit2="select * from meni where Kategorija=%s"\
-              #kategorija=forma()
-    
+                upit2="select * from meni where Kategorija=%s"\
+                #kategorija=forma()
+        
+                
+                return render_template("menu.html",menu=menu)
+              elif request.method=="POST":
+                forma=request.form
+                print(forma)
+                
+
+                upit= "select * from meni where Kategorija=%s and Cena<=%s"
+                #upit= "select * from meni where Cena<=%s"
+                vrednost=(forma["Kategorija"],forma["Cena"])
+               # print(vrednost)
+                kursor.execute(upit, vrednost)
+                
+                menu=kursor.fetchall()
+                konekcija.commit()
+        
+                
+
+                
+                return render_template("menu.html",menu=menu)
+        
               
-              return render_template("menu.html",menu=menu)
+                
+                
         
 
 app.run(debug=True)

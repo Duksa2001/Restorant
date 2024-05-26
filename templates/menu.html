@@ -52,17 +52,14 @@
             <div>
                Apply filters for food type, price...
             </div>
-<form method="get">
+<form method="POST">
             <div class="dropdown mt-3">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                    data-bs-toggle="dropdown">
-                    Category
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li><a class="dropdown-item" href="#">Pizza</a></li>
-                    <li><a class="dropdown-item" href="#">Another option</a></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
+                
+                <input type="radio" id="Pizza" checked name="Kategorija" value="Pizza">
+        <label for="red">Pizza</label><br>
+        <input type="radio" id="pasta" name="Kategorija" value="Pasta">
+        <label for="blue">Pasta</label><br>
+        <input type="range" name="Cena" max="30" min="0" step="1" value="30" id="">
             </div>
         </div>
         <div>
