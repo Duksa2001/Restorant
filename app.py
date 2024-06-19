@@ -7,13 +7,12 @@ from flask_mail import Mail, Message
 app=Flask(__name__)
 app.secret_key="tajni_kljuc_aplikacije"
 
-def mail():
-        app.config["MAIL_SERVER"]="sntp.gmail.com"
-        app.config["MAIL_PORT"]=465
-        app.config["MAIL_USERNAME"]="pythonprimavera@gmail.com"
-        app.config["MAIL_PASSWORD"]="Primavera2024"
-        app.config["MAIL_USE_TLS"]=False
-        app.config["MAIL_USE_SSL"]=True
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = 'pythonprimavera@gmail.com'
+app.config['MAIL_PASSWORD'] = 'your_email_password'
+app.config['MAIL_DEFAULT_SENDER'] = 'pythonprimavera@gmail.com'
 
 
 konekcija=mysql.connector.connect(
@@ -35,20 +34,49 @@ def ulogovan():
 def rola():
         if ulogovan():
                 return ast.literal_eval(session["rola_user"]).pop("rola")
-   
-@app.route('/',methods=["GET","POST"])
-
-def render_index():
+        
+def name():
         upit="select Name from customer where id=%s"
         vrednostUlogovanog=(session.get("ulogovani_user"),)
         kursor.execute(upit,vrednostUlogovanog)
         ime=kursor.fetchall()
         konekcija.commit()
-        return render_template("index.html",ime=ime)
+        return (ime)
+        
+   
+@app.route('/',methods=["GET","POST"])
+
+def render_index():
+        
+        
+        return render_template("index.html",ime=name())
+
 
 @app.route('/contact',methods=["GET","POST"])
 def render_contact():
-     return render_template("contact.html")
+        
+        print(name())
+        return render_template("contact.html",ime=name())
+
+@app.route('/send_email', methods=["GET","POST"])
+def send_email():
+                forma = request.form
+                user_name = forma['name']
+                user_email = forma['email']
+                user_message = forma['message']
+                print(user_name,user_email,user_message)
+                
+                subject = f"New contact form submission from {user_name}"
+                recipient = 'pythonprimavera@gmail.com'  # Tvoj email gde želiš da primaš poruke
+                body = f"Name: {user_name}\nEmail: {user_email}\n\nMessage:\n{user_message}"
+                print(body)
+                msg = Message(subject, recipients=[recipient])
+                msg.body = body
+
+                with app.app_context():
+                        mail.send(msg)
+                
+                return "Email sent successfully!"
 
 @app.route("/logout")
 def logout():
@@ -132,8 +160,18 @@ def new_user():
 def meni():
      
               
-              
-              return render_template("meni.html",meni=meni)
+            
+    categories = ['pizza', 'pasta', 'salad', 'dessert']
+    if request.method == 'POST':
+        selected_categories = request.form.getlist('category')
+        if selected_categories:
+            menu_items = MenuItem.query.filter(MenuItem.category.in_(selected_categories)).all()
+        else:
+            menu_items = MenuItem.query.all()
+    else:
+        menu_items = MenuItem.query.all()
+    
+    return render_template('index.html', categories=categories, menu_items=menu_items)
 
         
 @app.route('/menu',methods=["GET","POST"])
@@ -151,17 +189,27 @@ def menu():
                 #kategorija=forma()
         
                 
-                return render_template("menu.html",menu=menu)
+                return render_template("menu.html",menu=menu, ime=name())
               elif request.method=="POST":
                 forma=request.form
                 print(forma)
+
+                kategorije=forma.getlist('Kategorija')
+                print(kategorije)
+
+                categories = ['']
+                query = f"SELECT * FROM meni WHERE Kategorija IN ({','.join(['%s'] * len(kategorije))})"
+                kursor.execute(query, kategorije)
                 
 
-                upit= "select * from meni where Kategorija=%s and Cena<=%s"
+                #upit= "select * from meni where Kategorija=%s and Cena<=%s"
                 #upit= "select * from meni where Cena<=%s"
-                vrednost=(forma["Kategorija"],forma["Cena"])
+               # kat=forma["Kategorija"]
+                
+                #print(kat)
+               # vrednost=(kat,forma["Cena"])
                # print(vrednost)
-                kursor.execute(upit, vrednost)
+               # kursor.execute(upit, vrednost)
                 
                 menu=kursor.fetchall()
                 konekcija.commit()
@@ -169,7 +217,7 @@ def menu():
                 
 
                 
-                return render_template("menu.html",menu=menu)
+                return render_template("menu.html",menu=menu,ime=name())
         
               
                 

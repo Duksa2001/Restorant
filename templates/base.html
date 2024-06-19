@@ -21,11 +21,14 @@
                     <li><a href="{{url_for('render_index')}}">Home</a></li>
                     <li><a href="{{url_for('menu')}}">Menu</a></li>
                     <li><a href="{{url_for('render_contact')}}">Contact</a></li>
-                    <li><a href="#">Home</a></li>
+                    <li><a href="#">pizza maker</a></li>
                     
                     
                     
                 {%if ime%}
+                <!--<li><select name="" id="">
+                    <option value=""><a href="#">{{ime[0].Name}}</a></option>
+                    <option value=""><a href="#">logout</a></option></li>-->
                 <li><a href="#">{{ime[0].Name}}</a></li>
                 {%else%}
                 <li><a href="{{url_for('login')}}">Order Now</a></li>

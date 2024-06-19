@@ -4,8 +4,24 @@
 
 <body>
 
-    <p>nesto</p>
-    <p>{{meni[0].Naziv}}</p>
+
+    <h1>Restaurant Menu</h1>
+    <form method="POST">
+        {% for category in categories %}
+            <label>
+                <input type="checkbox" name="category" value="{{ category }}">
+                {{ category.capitalize() }}
+            </label><br>
+        {% endfor %}
+        <button type="submit">Filter</button>
+    </form>
+    <h2>Menu Items</h2>
+    <ul>
+        {% for item in menu_items %}
+            <li>{{ item.name }} - {{ item.category }}</li>
+        {% endfor %}
+    </ul>
+
 </body>
 
 
